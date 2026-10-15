@@ -1,0 +1,15 @@
+{
+    "$schema": "https://moddbcdn.vintagestory.at/schema/modinfo.latest.json",
+    "type": "Code",
+    "modid": "immersivewakes",
+    "name": "ImmersiveWakes",
+    "authors": [
+        "Bobrik00"
+    ],
+    "description": "Wakes and splashes on water. Mostly inspired by the mod Wakes by Goby56.",
+    "version": "0.9.1",
+    "side": "Client",
+    "dependencies": {
+        "game": "1.22.3"
+    }
+}

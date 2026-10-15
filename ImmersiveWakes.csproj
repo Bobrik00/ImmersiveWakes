@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>bin\$(Configuration)\Mods\mod</OutputPath>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <!-- reference\ holds decompiled engine and benchmark .cs files; the default **\*.cs glob would compile them in -->
+  <ItemGroup>
+    <Compile Remove="reference\**" />
+    <None Remove="reference\**" />
+    <Content Remove="reference\**" />
+    <EmbeddedResource Remove="reference\**" />
+  </ItemGroup>
+
+  <!-- tools\ holds projects of its own (WakeBench); the recursive glob would compile their sources and obj\ into the mod -->
+  <ItemGroup>
+    <Compile Remove="tools\**" />
+    <None Remove="tools\**" />
+    <Content Remove="tools\**" />
+    <EmbeddedResource Remove="tools\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="VintagestoryAPI">
+      <HintPath>$(VINTAGE_STORY)/VintagestoryAPI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!-- Raw GL: the wake texture is uploaded with TexSubImage2D, plus the depth pass and GPU timer queries -->
+    <Reference Include="OpenTK.Graphics">
+      <HintPath>$(VINTAGE_STORY)/Lib/OpenTK.Graphics.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!-- EntityBoat and the boat behaviours live in the survival mod -->
+    <Reference Include="VSSurvivalMod">
+      <HintPath>$(VINTAGE_STORY)/Mods/VSSurvivalMod.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!-- The position interpolator's snapshot fields give remote entities their real speed -->
+    <Reference Include="VSEssentials">
+      <HintPath>$(VINTAGE_STORY)/Mods/VSEssentials.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!-- LoadModConfig and StoreModConfig run the engine's Newtonsoft; the config names its keys and catches unknown ones through it -->
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(VINTAGE_STORY)/Lib/Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!-- The game's Harmony (2.4.2 in 1.22.3 and 1.22.7) for the postfix on VS Path Tracing (E11); client side only -->
+    <Reference Include="0Harmony">
+      <HintPath>$(VINTAGE_STORY)/Lib/0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+<ItemGroup>
+  <Content Include="modinfo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
+
+<ItemGroup>
+  <Content Include="modicon.png" Condition="Exists('modicon.png')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
+
+<!-- GPLv3 travels inside the mod zip: the shared CakeBuild zips the root of publish\ and takes LICENSE from nowhere else -->
+<ItemGroup>
+  <Content Include="LICENSE">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
+
+</Project>
